@@ -1,0 +1,13 @@
+FROM python:2.7.11-slim
+
+RUN mkdir /app
+RUN apt-get update && apt-get install -y python-matplotlib python-numpy
+WORKDIR /app
+COPY ./requirements.txt /app
+RUN pip2.7 install --upgrade pip
+RUN pip2.7 install --upgrade --no-cache-dir \
+--target=/usr/lib/python2.7/dist-packages \
+"https://get.dato.com/GraphLab-Create/1.8.3/$MAIL/$PASS/GraphLab-Create-License.tar.gz"
+RUN pip2.7 install --target=/usr/lib/python2.7/dist-packages -r requirements.txt
+COPY ./ /app
+ENTRYPOINT ["/usr/bin/python2.7", "main.py"]
